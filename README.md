@@ -2,9 +2,9 @@
 
 ## What you need to copy
 ```
-SearchTitle.jsx
-SearchTitle.module.css  
-api.js (goes in src/config/)
+SearchTitle.jsx (goes in frontend/src/components/)
+SearchTitle.module.css (goes in frontend/src/components/)
+api.js (goes in frontend/src/config/)
 ```
 
 ## Installation
