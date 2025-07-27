@@ -18,7 +18,7 @@ npm install axios
 In `src/config/api.js`, modify `baseURL` to real value
 
 ### 2. Environment variable
-Add this to your .env file:
+Add this to your frontend .env file:
 ```
 VITE_API_URL=http://your-backend-url
 ```
@@ -32,30 +32,19 @@ baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
 baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
 ```
 
-### 3. Optional: Vite proxy setup (may avoid CORS issues)
-Add this to `vite.config.js`:
+### 3. Alternative: Use Vite proxy instead of environment variable
+If you get CORS errors, add this to `vite.config.js`:
 ```javascript
 export default {
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true
-      }
+      '/api': 'http://localhost:8080'
     }
   }
 }
 ```
 
-Then change api.js to use relative URLs:
-```javascript
-const API_CONFIG = {
-  baseURL: '', // Empty string for relative URLs
-  endpoints: {
-    searchTasks: '/api/tasks/search'
-  }
-}
-```
+Then set `baseURL: ''` in api.js
 
 ### 4. In backend, update MongoDB collection name in Task.js
 In `backend/models/Task.js` update `collection` field
