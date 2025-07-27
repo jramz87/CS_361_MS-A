@@ -14,9 +14,11 @@ router.get('/search', async (req, res) => {
         // setup case-insensitive regex patterns for each word
         const regexPatterns = searchWords.map(word => new RegExp(word, 'i'))
         
-        // find tasks where title contains any of the search words
+        // find tasks where title contains ALL of the search words
         const tasks = await Task.find({
-            title: { $in: regexPatterns }
+            $and: regexPatterns.map(pattern => ({
+                title: { $regex: pattern }
+            }))
         })
         
         // for debugging, can be removed:

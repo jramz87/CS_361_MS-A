@@ -12,6 +12,7 @@ function SearchTitle() {
     const [results, setResults] = useState([])
     const [loading, setLoading] = useState(false)
     const [hasSearched, setHasSearched] = useState(false)
+    const [expandedTasks, setExpandedTasks] = useState(new Set())
 
     const searchTasks = async () => {
         // Don't search if query is empty
@@ -47,6 +48,18 @@ function SearchTitle() {
         setQuery('')
         setResults([])
         setHasSearched(false)
+        setExpandedTasks(new Set())
+    }
+
+    // Toggle task details visibility
+    const toggleTaskDetails = (taskId) => {
+        const newExpanded = new Set(expandedTasks)
+        if (newExpanded.has(taskId)) {
+            newExpanded.delete(taskId)
+        } else {
+            newExpanded.add(taskId)
+        }
+        setExpandedTasks(newExpanded)
     }
 
     // Do we have results to show?
@@ -97,26 +110,35 @@ function SearchTitle() {
                             </div>
                             
                             {/* Loop through each result */}
-                            {results.map((task) => (
-                                <div key={task._id} className={styles.resultItem}>
-                                    <div>
-                                        {/* Task title */}
-                                        <div className={styles.resultTitle}>{task.title}</div>
-                                        
-                                        {/* Task description if it exists */}
-                                        {task.description && (
-                                            <div className={styles.resultDescription}>{task.description}</div>
-                                        )}
-                                        
-                                        {/* Task metadata */}
-                                        <div className={styles.resultMeta}>
-                                            {task.group_name && <span>Group: {task.group_name}</span>}
-                                            {task.date && <span>Date: {task.date}</span>}
-                                            {task.priority && <span>Priority: {task.priority}</span>}
+                            {results.map((task) => {
+                                const isExpanded = expandedTasks.has(task._id)
+                                return (
+                                    <div 
+                                        key={task._id} 
+                                        className={styles.resultItem}
+                                        onClick={() => toggleTaskDetails(task._id)}
+                                    >
+                                        <div>
+                                            {/* Task title */}
+                                            <div className={styles.resultTitle}>{task.title}</div>
+                                            
+                                            {/* Task description if it exists */}
+                                            {isExpanded && task.description && (
+                                                <div className={styles.resultDescription}>{task.description}</div>
+                                            )}
+                                            
+                                            {/* Task metadata */}
+                                            {isExpanded && (
+                                                <div className={styles.resultMeta}>
+                                                    {task.group_name && <span>Group: {task.group_name}</span>}
+                                                    {task.date && <span>Date: {task.date}</span>}
+                                                    {task.priority && <span>Priority: {task.priority}</span>}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                )
+                            })}
                         </div>
                     ) : (
                         // No results found message

@@ -1,4 +1,4 @@
-/* CSS styling specific to SearchTitle.jsx */
+/* CSS specific styling for SearchTitle.jsx */
 
 .container {
     max-width: 500px;
@@ -89,10 +89,27 @@
     border: 1px solid #eee;
     border-radius: 4px;
     margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
 }
 
 .resultItem:hover {
-    background: #f9f9f9;
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.resultItem:active {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* dark mode support */
+@media (prefers-color-scheme: dark) {
+    .resultItem:hover {
+        background: rgba(255, 255, 255, 0.04);
+    }
+    
+    .resultItem:active {
+        background: rgba(255, 255, 255, 0.08);
+    }
 }
 
 .resultTitle {
