@@ -1,90 +1,75 @@
-# Search Component Setup
+# Search Microservice
 
-## What you need to copy
-```
-SearchTitle.jsx (goes in frontend/src/components/)
-SearchTitle.module.css (goes in frontend/src/components/)
-api.js (goes in frontend/src/config/)
-```
+## What it does
+This microservice provides task search functionality. Users can search for tasks by typing keywords, and the system finds all tasks that contain those words in the title.
+
+**Key features:**
+- Search tasks by title keywords
+- Case-insensitive search (finds "Project" when searching "project")
+- Multi-word search (finds tasks containing ALL search words)
+- Click to expand task details
+- Real-time search with Enter key or Search button
+- 30 character search limit
+- Clear search functionality
 
 ## Installation
-```bash
-npm install axios
-```
+1. Clone this repo: `git clone [repo-url]`
+2. Install backend: `cd backend && npm install`
+3. Install frontend: `cd ../frontend && npm install`
 
-## Setup
-
-### 1. Modify api.js file in frontend
-In `src/config/api.js`, modify `baseURL` to real value
-
-### 2. Environment variable
-Add this to your frontend .env file:
-```
-VITE_API_URL=http://your-backend-url
-```
-
-If you use Create React App instead of Vite, change `api.js`:
+## Usage
+1. Update the necessary fields in `config.js` (located in root directory)
+1. Start the backend: `cd backend && npm run dev`
+2. In your main app, import the component:
 ```javascript
-// Change this line:
-baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
+import SearchTitle from '../search-microservice/frontend/src/components/SearchTitle'
 
-// To this:
-baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
-```
-
-### 3. Alternative: Use Vite proxy instead of environment variable
-If you get CORS errors, add this to `vite.config.js`:
-```javascript
-export default {
-  server: {
-    proxy: {
-      '/api': 'http://localhost:8080'
-    }
-  }
+function App() {
+  return <SearchTitle />
 }
 ```
 
-Then set `baseURL: ''` in api.js
+That's it! The component connects to the running backend automatically.
 
-### 4. In backend, update MongoDB collection name in Task.js
-In `backend/models/Task.js` update `collection` field
+## API Usage
 
-### 5. In backend, update .env file with MongoDB connect string
-In `backend/.env` update `MONGODB_URI`
+### How to REQUEST data from the microservice
 
-### 6. In backend, update .env file for CORS configuration
-In `backend/.env` update `ALLOWED_ORIGINS`
+Make a GET request to the search endpoint:
 
-### 7. How to use it
 ```javascript
-import SearchTitle from './SearchTitle'
+// Example API call
+const searchTasks = async (searchQuery) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/tasks/search?title=${encodeURIComponent(searchQuery)}`)
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Search failed:', error)
+    return { results: [] }
+  }
+}
 
-<SearchTitle />
+// Usage
+const results = await searchTasks('project planning')
 ```
 
-## Your backend needs
+### How to RECEIVE data from the microservice
 
-**Endpoint:** `GET /api/tasks/search?title=whatever`
+The API returns JSON with this structure:
 
-**Returns:**
-```json
+```javascript
+// Example response
 {
   "results": [
     {
-      "_id": "123",
-      "title": "some task",
-      "description": "details",
-      "group_name": "team name", 
+      "_id": "64f8a1b2c3d4e5f6789a0b1c",
+      "title": "Study for Exam",
+      "description": "study for CS 361 final",
+      "group_name": "School Tasks", 
       "date": "07-26-25",
       "priority": 1
     }
   ]
 }
-```
-
-**CORS setup:**
-```javascript
-app.use(cors({
-  origin: 'http://your-frontend-url'
-}))
 ```

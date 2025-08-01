@@ -1,9 +1,8 @@
-
 // API configuration for search microservice
-const API_CONFIG = {// Default to localhost for development
-    baseURL: 'http://localhost:8080', // TODO: Hana, change this to your actual backend URL
+import '../../../config.js'  // Load the config into window
 
-    // API endpoints
+const API_CONFIG = {
+    baseURL: window.MICROSERVICE_CONFIG.frontend.apiUrl,
     endpoints: {
         searchTasks: '/api/tasks/search'
     }

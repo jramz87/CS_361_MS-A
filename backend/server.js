@@ -3,21 +3,23 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const config = require('../config.js')  // Import config
 require('dotenv').config()
 
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || config.backend.port  // Use config value
 
-
-// set appropriate CORS vars in .env
+// Use config values for CORS
 app.use(cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173', 'http://localhost:3000'],
-    credentials: true
+    origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }))
 app.use(express.json())
 
-// connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/taskdb')
+// connect to MongoDB - use config value
+mongoose.connect(process.env.MONGODB_URI || config.backend.mongoUri)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('MongoDB connection error:', err))
 
@@ -29,7 +31,6 @@ app.use('/api/tasks', taskRoutes)
 app.get('/', (req, res) => {
     res.json({ message: 'Task Search Microservice is running!' })
 })
-
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)

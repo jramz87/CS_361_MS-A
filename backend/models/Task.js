@@ -1,6 +1,7 @@
 // MongoDB model for Task documents
 
 const mongoose = require('mongoose')
+const config = require('../../config.js')  // Import centralized config
 
 const taskSchema = new mongoose.Schema({
     title: { type: String, required: true },
@@ -9,7 +10,7 @@ const taskSchema = new mongoose.Schema({
     priority: { type: Number, required: true },
     description: { type: String, required: true }
 },{
-  collection: 'search-title'  // TODO: Hana, update this with the collection's real name
+  collection: config.backend.collectionName  // Uses config value
 })
 
 module.exports = mongoose.model('Task', taskSchema)
