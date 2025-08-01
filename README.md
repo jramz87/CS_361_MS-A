@@ -74,5 +74,5 @@ The API returns JSON with this structure:
 }
 ```
 
-## Sequence Diagram
+## UML Sequence Diagram
 ![UML Sequence Diagram](./UML.png)
