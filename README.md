@@ -1,7 +1,7 @@
 # Search Microservice
 
 ## What it does
-This microservice provides task search functionality. Users can search for tasks by typing keywords, and the system finds all tasks that contain those words in the title.
+This microservice provides task search functionality (where tasks are MongoDB documents). Users can search for tasks by typing keywords, and the system finds all tasks that contain those words in the title.
 
 **Key features:**
 - Search tasks by title keywords
@@ -29,7 +29,7 @@ function App() {
 }
 ```
 
-That's it! The component connects to the running backend automatically.
+The component should connect to the running backend automatically.
 
 ## API Usage
 
