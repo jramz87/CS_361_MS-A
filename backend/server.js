@@ -11,7 +11,7 @@ const PORT = process.env.PORT || config.backend.port  // Use config value
 
 // Use config values for CORS
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174'],
+    origin: config.backend.allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']

@@ -33,6 +33,8 @@ The component should connect to the running backend automatically.
 
 ## API Usage
 
+**API Endpoint:** `/api/tasks/search`
+
 ### How to REQUEST data from the microservice
 
 Make a GET request to the search endpoint:
