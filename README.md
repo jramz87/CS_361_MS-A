@@ -19,8 +19,9 @@ This microservice provides task search functionality (where tasks are MongoDB do
 
 ## Usage
 1. Update the necessary fields in `config.js` (located in root directory)
-1. Start the backend: `cd backend && npm run dev`
-2. In your main app, import the component:
+2. Start the backend: `cd backend && npm run dev`
+3. In your main app, import the component:
+
 ```javascript
 import SearchTitle from '../search-microservice/frontend/src/components/SearchTitle'
 
@@ -29,39 +30,21 @@ function App() {
 }
 ```
 
-The component should connect to the running backend automatically.
+The SearchTitle component handles all API communication automatically. No additional setup required - just import and use.
 
-## API Usage
+## Internal API Reference
+
+The SearchTitle component communicates with the backend using the following API:
 
 **API Endpoint:** `/api/tasks/search`
 
-### How to REQUEST data from the microservice
-
-Make a GET request to the search endpoint:
-
-```javascript
-// Example API call
-const searchTasks = async (searchQuery) => {
-  try {
-    const response = await fetch(`http://localhost:8080/api/tasks/search?title=${encodeURIComponent(searchQuery)}`)
-    const data = await response.json()
-    return data
-  } catch (error) {
-    console.error('Search failed:', error)
-    return { results: [] }
-  }
-}
-
-// Usage
-const results = await searchTasks('project planning')
+**Request Format:** GET request with query parameter
+```
+http://localhost:8080/api/tasks/search?title=search+terms
 ```
 
-### How to RECEIVE data from the microservice
-
-The API returns JSON with this structure:
-
+**Response Format:**
 ```javascript
-// Example response
 {
   "results": [
     {
@@ -75,6 +58,8 @@ The API returns JSON with this structure:
   ]
 }
 ```
+
+*Note: This API information is for reference only. The SearchTitle component handles all API calls internally - you don't need to make these requests manually.*
 
 ## UML Sequence Diagram
 ![UML Sequence Diagram](./UML.png)

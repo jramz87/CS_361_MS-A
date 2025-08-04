@@ -12,7 +12,7 @@ var MICROSERVICE_CONFIG = {
         port: 8080,                                                     // Backend port of main program
         mongoUri: 'mongodb+srv://jramz1897:nbBDKoehtrS7xLmz@test.sudixob.mongodb.net/test',   // MongoDB connection string
         collectionName: 'search-title',                                 // MongoDB task collection name
-        allowedOrigins: 'http://localhost:3000,http://localhost:5173'   // Frontend URLs for CORS
+        allowedOrigins: ['http://localhost:3000', 'http://localhost:5173']   // Frontend URLs for CORS
     }
 }
 
