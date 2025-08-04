@@ -40,8 +40,17 @@ The SearchTitle component communicates with the backend using the following API:
 
 **Request Format:** GET request with query parameter
 ```
-http://localhost:8080/api/tasks/search?title=search+terms
+http://your-backend-url/api/tasks/search?title=search+terms
 ```
+
+**Router Logic:**
+The Express router handles the search request and response logic:
+
+1. **Extracts** the search term from the query parameter
+2. **Parses** the search string into individual words
+3. **Creates** case-insensitive regular expressions for each word
+4. **Queries** MongoDB database using an AND condition to find tasks whose titles contain ALL search words
+5. **Returns** all matching task information as JSON response
 
 **Response Format:**
 ```javascript
